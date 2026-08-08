@@ -39,7 +39,6 @@
     width:100%;
     max-width:760px;
   }
-  /* ===== Top strip: rivets + title ===== */
   .headband{
     background:linear-gradient(180deg,#2a3136,#1b2023);
     border:1px solid var(--steel-line);
@@ -77,7 +76,6 @@
   .conn-badge.connecting .conn-dot{ background:var(--amber); box-shadow:0 0 10px var(--amber-glow); animation:blink 1s infinite; }
   @keyframes blink{ 50%{ opacity:.25; } }
 
-  /* ===== Link config row ===== */
   .link-row{
     background:var(--bg-panel-2);
     border-left:1px solid var(--steel-line);
@@ -100,7 +98,6 @@
   }
   .link-row button:hover{ border-color:var(--blue); color:var(--blue); }
 
-  /* ===== Sequence rail ===== */
   .panel-body{
     background:var(--bg-panel);
     border-left:1px solid var(--steel-line);
@@ -169,7 +166,6 @@
   .step-readout .label{ font-size:11px; letter-spacing:.16em; color:var(--text-dim); text-transform:uppercase; }
   .step-readout .value{ font-size:22px; font-weight:700; color:var(--blue); }
 
-  /* ===== Controls ===== */
   .controls{
     background:linear-gradient(180deg,#20262a,#181c1f);
     border:1px solid var(--steel-line);
@@ -228,7 +224,7 @@
 
   <div class="link-row">
     <label for="wsUrl">SOCKET</label>
-    <input id="wsUrl" type="text" value="wss://YOUR_NGROK_URL_HERE/ws/control" spellcheck="false">
+    <input id="wsUrl" type="text" value="wss://joyous-blasphemy-myth.ngrok-free.dev/ws/control" spellcheck="false">
     <button id="connectBtn">Connect</button>
   </div>
 
@@ -373,9 +369,6 @@
     setBadge('offline');
   }
 
-  // Accepts flexible payload shapes coming from the Node-RED flow.
-  // Adjust the key names below (data.step, data.r1 / relays[] / timers[])
-  // to match whatever your flow actually publishes.
   function applyData(data){
     if(data.step !== undefined){
       const step = Number(data.step) || 0;
@@ -390,7 +383,6 @@
       }
     }
 
-    // Individual relay booleans, e.g. data.relays = [true,false,false]
     if(Array.isArray(data.relays)){
       data.relays.forEach((val, idx) => {
         const i = idx + 1;
@@ -401,7 +393,6 @@
       });
     }
 
-    // Timers, e.g. data.timers = [12,0,0]  OR  data.r1_time / r2_time / r3_time
     if(Array.isArray(data.timers)){
       data.timers.forEach((val, idx) => {
         const i = idx + 1;
@@ -430,6 +421,11 @@
   stopBtn.addEventListener('click', () => send('STOP'));
 
   setBadge('offline');
+  
+  window.addEventListener('load', () => {
+    connect();
+    connectBtn.textContent = 'Disconnect';
+  });
 })();
 </script>
 </body>
