@@ -1,0 +1,13 @@
+{
+  "name": "node-red-dashboard",
+  "version": "1.0.0",
+  "description": "PLC Dashboard for Testing",
+  "main": "index.js",
+  "scripts": {
+    "start": "node-red --settings settings.js flows.json"
+  },
+  "dependencies": {
+    "node-red": "^3.1.0",
+    "node-red-dashboard": "^3.6.0"
+  }
+}
