@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cloud HMI — 3-Station Sequence Panel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-deep:#14171a;
+    --bg-panel:#1d2225;
+    --bg-panel-2:#242a2e;
+    --steel-line:#333b40;
+    --text-main:#e7ecef;
+    --text-dim:#7e8c92;
+    --amber:#ffb020;
+    --amber-glow:rgba(255,176,32,.55);
+    --green:#2ee6a6;
+    --green-glow:rgba(46,230,166,.6);
+    --red:#ff4d4f;
+    --red-glow:rgba(255,77,79,.6);
+    --blue:#4fa3ff;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;}
+  body{
+    background:
+      radial-gradient(1200px 600px at 50% -10%, #1c2226 0%, var(--bg-deep) 60%);
+    color:var(--text-main);
+    font-family:'Chakra Petch', sans-serif;
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    padding:28px 14px 60px;
+    min-height:100%;
+  }
+  .rig{
+    width:100%;
+    max-width:760px;
+  }
+  /* ===== Top strip: rivets + title ===== */
+  .headband{
+    background:linear-gradient(180deg,#2a3136,#1b2023);
+    border:1px solid var(--steel-line);
+    border-radius:10px 10px 0 0;
+    padding:14px 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    position:relative;
+  }
+  .headband::before, .headband::after{
+    content:"";
+    position:absolute; top:50%; width:7px; height:7px; border-radius:50%;
+    background:#3d454b; box-shadow: inset 0 1px 1px rgba(0,0,0,.6), 0 1px 0 rgba(255,255,255,.05);
+    transform:translateY(-50%);
+  }
+  .headband::before{ left:10px; }
+  .headband::after{ right:10px; }
+  .title-block{ display:flex; flex-direction:column; gap:2px; }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:10.5px; letter-spacing:.18em; color:var(--text-dim); text-transform:uppercase;
+  }
+  .title{
+    font-size:19px; font-weight:700; letter-spacing:.02em;
+  }
+  .conn-badge{
+    display:flex; align-items:center; gap:8px;
+    font-family:'JetBrains Mono', monospace; font-size:11.5px; letter-spacing:.05em;
+    padding:6px 12px; border-radius:20px; border:1px solid var(--steel-line);
+    background:#171b1e;
+  }
+  .conn-dot{ width:8px; height:8px; border-radius:50%; background:var(--red); box-shadow:0 0 8px var(--red-glow); transition:.25s; }
+  .conn-badge.online .conn-dot{ background:var(--green); box-shadow:0 0 10px var(--green-glow); }
+  .conn-badge.connecting .conn-dot{ background:var(--amber); box-shadow:0 0 10px var(--amber-glow); animation:blink 1s infinite; }
+  @keyframes blink{ 50%{ opacity:.25; } }
+
+  /* ===== Link config row ===== */
+  .link-row{
+    background:var(--bg-panel-2);
+    border-left:1px solid var(--steel-line);
+    border-right:1px solid var(--steel-line);
+    padding:10px 20px;
+    display:flex; gap:8px; align-items:center;
+    font-family:'JetBrains Mono', monospace; font-size:12px;
+  }
+  .link-row label{ color:var(--text-dim); white-space:nowrap; }
+  .link-row input{
+    flex:1; min-width:0;
+    background:#101315; border:1px solid var(--steel-line); color:var(--text-main);
+    padding:7px 10px; border-radius:5px; font-family:inherit; font-size:12px;
+  }
+  .link-row input:focus{ outline:none; border-color:var(--blue); }
+  .link-row button{
+    font-family:'JetBrains Mono', monospace; font-size:11px; letter-spacing:.05em;
+    background:#2a3136; color:var(--text-main); border:1px solid var(--steel-line);
+    padding:8px 14px; border-radius:5px; cursor:pointer; transition:.15s;
+  }
+  .link-row button:hover{ border-color:var(--blue); color:var(--blue); }
+
+  /* ===== Sequence rail ===== */
+  .panel-body{
+    background:var(--bg-panel);
+    border-left:1px solid var(--steel-line);
+    border-right:1px solid var(--steel-line);
+    padding:30px 24px 10px;
+  }
+  .rail-wrap{ position:relative; padding:0 6px 24px; }
+  .rail-line{
+    position:absolute; top:34px; left:56px; right:56px; height:3px;
+    background:var(--steel-line); border-radius:3px; overflow:hidden; z-index:0;
+  }
+  .rail-fill{
+    height:100%; width:0%; background:linear-gradient(90deg,var(--green),var(--amber));
+    transition:width .4s ease;
+  }
+  .stations{ display:flex; justify-content:space-between; position:relative; z-index:1; }
+  .station{ display:flex; flex-direction:column; align-items:center; width:31%; }
+  .led{
+    width:34px; height:34px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #3a4348, #1a1f22 70%);
+    border:2px solid #454e53;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,.6);
+    transition:.25s;
+  }
+  .led.on{
+    background:radial-gradient(circle at 35% 30%, #ffe8b0, var(--amber) 55%, #a56a00 100%);
+    border-color:#ffcf6b;
+    box-shadow: 0 0 14px 4px var(--amber-glow), inset 0 1px 2px rgba(255,255,255,.5);
+  }
+  .st-label{
+    margin-top:10px; font-size:12px; letter-spacing:.1em; color:var(--text-dim); text-transform:uppercase;
+    font-family:'JetBrains Mono', monospace;
+  }
+  .st-name{ font-size:15px; font-weight:600; margin-top:2px; }
+
+  .cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:22px; }
+  .card{
+    background:var(--bg-panel-2);
+    border:1px solid var(--steel-line);
+    border-radius:8px;
+    padding:14px 12px;
+    text-align:center;
+    position:relative;
+  }
+  .card .relay-tag{
+    font-family:'JetBrains Mono', monospace; font-size:10.5px; letter-spacing:.14em;
+    color:var(--text-dim); text-transform:uppercase;
+  }
+  .card .relay-state{ font-size:13px; margin-top:4px; font-weight:600; color:var(--text-dim); }
+  .card.active .relay-state{ color:var(--green); }
+  .card .timer{
+    font-family:'JetBrains Mono', monospace; font-size:26px; font-weight:700;
+    margin-top:8px; color:var(--text-main); letter-spacing:.03em;
+  }
+  .card .timer small{ font-size:12px; color:var(--text-dim); margin-left:3px; font-weight:400; }
+  .card::before{
+    content:""; position:absolute; top:10px; right:10px; width:7px; height:7px; border-radius:50%;
+    background:var(--steel-line);
+  }
+  .card.active::before{ background:var(--green); box-shadow:0 0 8px var(--green-glow); }
+
+  .step-readout{
+    display:flex; justify-content:center; align-items:baseline; gap:8px;
+    margin-top:24px; font-family:'JetBrains Mono', monospace;
+  }
+  .step-readout .label{ font-size:11px; letter-spacing:.16em; color:var(--text-dim); text-transform:uppercase; }
+  .step-readout .value{ font-size:22px; font-weight:700; color:var(--blue); }
+
+  /* ===== Controls ===== */
+  .controls{
+    background:linear-gradient(180deg,#20262a,#181c1f);
+    border:1px solid var(--steel-line);
+    border-radius:0 0 10px 10px;
+    padding:22px 24px 26px;
+    display:flex; justify-content:center; gap:28px; align-items:center;
+  }
+  .ctl-btn{
+    width:96px; height:96px; border-radius:50%; border:none; cursor:pointer;
+    font-family:'Chakra Petch', sans-serif; font-weight:700; font-size:14px; letter-spacing:.06em;
+    color:#0e1112;
+    position:relative;
+    transition:transform .08s ease;
+  }
+  .ctl-btn:active{ transform:translateY(2px); }
+  .ctl-btn.start{
+    background:radial-gradient(circle at 38% 32%, #6bffce, var(--green) 60%, #12a97a 100%);
+    box-shadow:0 6px 0 #12855f, 0 8px 18px rgba(46,230,166,.35);
+  }
+  .ctl-btn.start:active{ box-shadow:0 3px 0 #12855f; }
+  .ctl-btn.stop{
+    background:radial-gradient(circle at 38% 32%, #ff9a9b, var(--red) 60%, #b1181a 100%);
+    box-shadow:0 6px 0 #8f1113, 0 8px 18px rgba(255,77,79,.35);
+    color:#2a0000;
+  }
+  .ctl-btn.stop:active{ box-shadow:0 3px 0 #8f1113; }
+  .ctl-btn:disabled{ opacity:.35; cursor:not-allowed; }
+
+  .log{
+    font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--text-dim);
+    text-align:center; margin-top:14px; letter-spacing:.03em;
+  }
+
+  @media (max-width:480px){
+    .st-name{ font-size:12.5px; }
+    .card .timer{ font-size:21px; }
+    .ctl-btn{ width:80px; height:80px; font-size:12px; }
+    .controls{ gap:18px; }
+    .rail-line{ left:40px; right:40px; }
+  }
+</style>
+</head>
+<body>
+<div class="rig">
+
+  <div class="headband">
+    <div class="title-block">
+      <span class="eyebrow">Node&#8209;RED &middot; ws/control</span>
+      <span class="title">3-Station Sequence Panel</span>
+    </div>
+    <div class="conn-badge" id="connBadge">
+      <span class="conn-dot"></span>
+      <span id="connText">OFFLINE</span>
+    </div>
+  </div>
+
+  <div class="link-row">
+    <label for="wsUrl">SOCKET</label>
+    <input id="wsUrl" type="text" value="wss://YOUR_NGROK_URL_HERE/ws/control" spellcheck="false">
+    <button id="connectBtn">Connect</button>
+  </div>
+
+  <div class="panel-body">
+    <div class="rail-wrap">
+      <div class="rail-line"><div class="rail-fill" id="railFill"></div></div>
+      <div class="stations">
+        <div class="station">
+          <div class="led" id="led1"></div>
+          <div class="st-label">Station 01</div>
+          <div class="st-name">Relay R1</div>
+        </div>
+        <div class="station">
+          <div class="led" id="led2"></div>
+          <div class="st-label">Station 02</div>
+          <div class="st-name">Relay R2</div>
+        </div>
+        <div class="station">
+          <div class="led" id="led3"></div>
+          <div class="st-label">Station 03</div>
+          <div class="st-name">Relay R3</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cards">
+      <div class="card" id="card1">
+        <div class="relay-tag">Relay 1</div>
+        <div class="relay-state" id="state1">IDLE</div>
+        <div class="timer" id="t1">0<small>s</small></div>
+      </div>
+      <div class="card" id="card2">
+        <div class="relay-tag">Relay 2</div>
+        <div class="relay-state" id="state2">IDLE</div>
+        <div class="timer" id="t2">0<small>s</small></div>
+      </div>
+      <div class="card" id="card3">
+        <div class="relay-tag">Relay 3</div>
+        <div class="relay-state" id="state3">IDLE</div>
+        <div class="timer" id="t3">0<small>s</small></div>
+      </div>
+    </div>
+
+    <div class="step-readout">
+      <span class="label">Live Step</span>
+      <span class="value" id="stepValue">0</span>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="ctl-btn start" id="startBtn">START</button>
+    <button class="ctl-btn stop" id="stopBtn">STOP</button>
+  </div>
+
+  <div class="log" id="logLine">Waiting for connection…</div>
+</div>
+
+<script>
+(function(){
+  let ws = null;
+  let reconnectTimer = null;
+  let reconnectDelay = 1000;
+  let manualClose = false;
+
+  const connBadge = document.getElementById('connBadge');
+  const connText  = document.getElementById('connText');
+  const wsUrlInput = document.getElementById('wsUrl');
+  const connectBtn = document.getElementById('connectBtn');
+  const startBtn = document.getElementById('startBtn');
+  const stopBtn  = document.getElementById('stopBtn');
+  const logLine  = document.getElementById('logLine');
+  const railFill = document.getElementById('railFill');
+  const stepValue = document.getElementById('stepValue');
+
+  const leds    = [null, document.getElementById('led1'), document.getElementById('led2'), document.getElementById('led3')];
+  const cards   = [null, document.getElementById('card1'), document.getElementById('card2'), document.getElementById('card3')];
+  const states  = [null, document.getElementById('state1'), document.getElementById('state2'), document.getElementById('state3')];
+  const timers  = [null, document.getElementById('t1'), document.getElementById('t2'), document.getElementById('t3')];
+
+  function setBadge(mode){
+    connBadge.classList.remove('online','connecting');
+    if(mode === 'online'){ connBadge.classList.add('online'); connText.textContent = 'ONLINE'; startBtn.disabled = false; stopBtn.disabled = false; }
+    else if(mode === 'connecting'){ connBadge.classList.add('connecting'); connText.textContent = 'CONNECTING'; startBtn.disabled = true; stopBtn.disabled = true; }
+    else { connText.textContent = 'OFFLINE'; startBtn.disabled = true; stopBtn.disabled = true; }
+  }
+
+  function log(msg){
+    const t = new Date().toLocaleTimeString();
+    logLine.textContent = '[' + t + ']  ' + msg;
+  }
+
+  function connect(){
+    manualClose = false;
+    clearTimeout(reconnectTimer);
+    const url = wsUrlInput.value.trim();
+    if(!url){ log('Enter a WebSocket URL first.'); return; }
+
+    setBadge('connecting');
+    log('Connecting to ' + url + ' …');
+
+    try{
+      ws = new WebSocket(url);
+    }catch(e){
+      setBadge('offline');
+      log('Invalid WebSocket URL.');
+      return;
+    }
+
+    ws.onopen = () => {
+      setBadge('online');
+      reconnectDelay = 1000;
+      log('Connected. Listening for live data…');
+    };
+
+    ws.onmessage = (event) => {
+      let data;
+      try{ data = JSON.parse(event.data); }
+      catch(e){ log('Received: ' + event.data); return; }
+      applyData(data);
+    };
+
+    ws.onerror = () => {
+      log('Connection error.');
+    };
+
+    ws.onclose = () => {
+      setBadge('offline');
+      if(!manualClose){
+        log('Disconnected. Retrying in ' + Math.round(reconnectDelay/1000) + 's…');
+        reconnectTimer = setTimeout(connect, reconnectDelay);
+        reconnectDelay = Math.min(reconnectDelay * 1.6, 15000);
+      }else{
+        log('Disconnected.');
+      }
+    };
+  }
+
+  function disconnect(){
+    manualClose = true;
+    clearTimeout(reconnectTimer);
+    if(ws) ws.close();
+    setBadge('offline');
+  }
+
+  // Accepts flexible payload shapes coming from the Node-RED flow.
+  // Adjust the key names below (data.step, data.r1 / relays[] / timers[])
+  // to match whatever your flow actually publishes.
+  function applyData(data){
+    if(data.step !== undefined){
+      const step = Number(data.step) || 0;
+      stepValue.textContent = step;
+      const pct = Math.max(0, Math.min(100, ((step - 1) / 2) * 100));
+      railFill.style.width = (step > 0 ? pct : 0) + '%';
+      for(let i=1;i<=3;i++){
+        const isActive = step === i;
+        leds[i].classList.toggle('on', isActive);
+        cards[i].classList.toggle('active', isActive);
+        states[i].textContent = isActive ? 'ACTIVE' : 'IDLE';
+      }
+    }
+
+    // Individual relay booleans, e.g. data.relays = [true,false,false]
+    if(Array.isArray(data.relays)){
+      data.relays.forEach((val, idx) => {
+        const i = idx + 1;
+        if(!leds[i]) return;
+        leds[i].classList.toggle('on', !!val);
+        cards[i].classList.toggle('active', !!val);
+        states[i].textContent = val ? 'ACTIVE' : 'IDLE';
+      });
+    }
+
+    // Timers, e.g. data.timers = [12,0,0]  OR  data.r1_time / r2_time / r3_time
+    if(Array.isArray(data.timers)){
+      data.timers.forEach((val, idx) => {
+        const i = idx + 1;
+        if(timers[i]) timers[i].innerHTML = (val ?? 0) + '<small>s</small>';
+      });
+    }
+    if(data.r1_time !== undefined) timers[1].innerHTML = data.r1_time + '<small>s</small>';
+    if(data.r2_time !== undefined) timers[2].innerHTML = data.r2_time + '<small>s</small>';
+    if(data.r3_time !== undefined) timers[3].innerHTML = data.r3_time + '<small>s</small>';
+  }
+
+  function send(payload){
+    if(ws && ws.readyState === WebSocket.OPEN){
+      ws.send(JSON.stringify({ payload: payload }));
+      log('Sent command: ' + payload);
+    }else{
+      log('Not connected — command not sent.');
+    }
+  }
+
+  connectBtn.addEventListener('click', () => {
+    if(ws && ws.readyState === WebSocket.OPEN){ disconnect(); connectBtn.textContent = 'Connect'; }
+    else { connect(); connectBtn.textContent = 'Disconnect'; }
+  });
+  startBtn.addEventListener('click', () => send('START'));
+  stopBtn.addEventListener('click', () => send('STOP'));
+
+  setBadge('offline');
+})();
+</script>
+</body>
+</html>
