@@ -1,0 +1,621 @@
+[
+    {
+        "id": "1665b10bb107a0a0",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "6c93fd97271680ea",
+        "type": "s7 endpoint",
+        "transport": "iso-on-tcp",
+        "address": "192.168.0.1",
+        "port": "102",
+        "rack": "0",
+        "slot": "1",
+        "localtsaphi": "03",
+        "localtsaplo": "00",
+        "remotetsaphi": "03",
+        "remotetsaplo": "01",
+        "connmode": "rack-slot",
+        "adapter": "",
+        "busaddr": 2,
+        "cycletime": 1000,
+        "timeout": 2000,
+        "name": "",
+        "vartable": [
+            {
+                "addr": "DB1,X0.0",
+                "name": "Start_Cmd"
+            },
+            {
+                "addr": "DB1,X0.1",
+                "name": "Stop_Cmd"
+            },
+            {
+                "addr": "DB1,INT2",
+                "name": "Live_Step"
+            }
+        ]
+    },
+    {
+        "id": "4eaeff556b55aea8",
+        "type": "ui_group",
+        "name": "Default",
+        "tab": "",
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "b28422a06bfc410a",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "954c5d95b5f1ee7a",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-custom",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "Impact,Impact,Charcoal,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "reset": false
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#4B7930",
+                    "value": "#4B7930",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#4B7930",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#333333",
+                    "edited": true
+                },
+                "group-textColor": {
+                    "value": "#6db046",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#555555",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#333333",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#eeeeee",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#4b7930",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#333333",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey",
+                "palette": "light"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "a43fa6e721daba12",
+        "type": "ui_group",
+        "name": "Default",
+        "tab": "b28422a06bfc410a",
+        "order": 1,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "978e2b05108b0f79",
+        "type": "ui_group",
+        "name": "Default",
+        "tab": "",
+        "order": 1,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "37b10d18fce98e77",
+        "type": "s7 endpoint",
+        "transport": "iso-on-tcp",
+        "address": "",
+        "port": "102",
+        "rack": "0",
+        "slot": "2",
+        "localtsaphi": "01",
+        "localtsaplo": "00",
+        "remotetsaphi": "01",
+        "remotetsaplo": "00",
+        "connmode": "rack-slot",
+        "adapter": "",
+        "busaddr": 2,
+        "cycletime": 1000,
+        "timeout": 2000,
+        "name": "",
+        "vartable": [
+            {
+                "addr": "DB1,X0.0",
+                "name": "Start_Cmd"
+            },
+            {
+                "addr": "DB1,X0.1",
+                "name": "Stop_Cmd"
+            },
+            {
+                "addr": "DB1,INT2",
+                "name": "Live_Step"
+            }
+        ]
+    },
+    {
+        "id": "b35da39a0824431b",
+        "type": "s7 in",
+        "z": "1665b10bb107a0a0",
+        "endpoint": "6c93fd97271680ea",
+        "mode": "single",
+        "variable": "Live_Step",
+        "diff": true,
+        "name": "",
+        "x": 180,
+        "y": 120,
+        "wires": [
+            [
+                "607278e21189609f",
+                "cachestep",
+                "f29103dd6f9ec6ee"
+            ]
+        ]
+    },
+    {
+        "id": "607278e21189609f",
+        "type": "ui_gauge",
+        "z": "1665b10bb107a0a0",
+        "name": "",
+        "group": "a43fa6e721daba12",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "LIVE STATUS",
+        "label": "STEP",
+        "format": "{{value}}",
+        "min": 0,
+        "max": 10,
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "3",
+        "seg2": "7",
+        "diff": false,
+        "className": "",
+        "x": 340,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "48595d372ff4a4cd",
+        "type": "s7 out",
+        "z": "1665b10bb107a0a0",
+        "endpoint": "6c93fd97271680ea",
+        "variable": "Start_Cmd",
+        "name": "",
+        "x": 510,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "82e479665142c646",
+        "type": "ui_button",
+        "z": "1665b10bb107a0a0",
+        "name": "",
+        "group": "a43fa6e721daba12",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "STOP",
+        "tooltip": "",
+        "color": "white",
+        "bgcolor": "#dc3545",
+        "className": "",
+        "icon": "",
+        "payload": "1",
+        "payloadType": "num",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 350,
+        "y": 320,
+        "wires": [
+            [
+                "9a765335cc3bd531"
+            ]
+        ]
+    },
+    {
+        "id": "9a765335cc3bd531",
+        "type": "s7 out",
+        "z": "1665b10bb107a0a0",
+        "endpoint": "6c93fd97271680ea",
+        "variable": "Stop_Cmd",
+        "name": "",
+        "x": 510,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "8af0768a0a9e330c",
+        "type": "ui_button",
+        "z": "1665b10bb107a0a0",
+        "name": "",
+        "group": "a43fa6e721daba12",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "START",
+        "tooltip": "",
+        "color": "white",
+        "bgcolor": "#28a745",
+        "className": "",
+        "icon": "",
+        "payload": "1",
+        "payloadType": "num",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 340,
+        "y": 260,
+        "wires": [
+            [
+                "48595d372ff4a4cd"
+            ]
+        ]
+    },
+    {
+        "id": "cachestep",
+        "type": "function",
+        "z": "1665b10bb107a0a0",
+        "name": "CACHE STEP",
+        "func": "const step=Number(msg.payload)||0;\nconst prev=flow.get('step');\nif(step!==prev){flow.set('step',step);flow.set('stepAt',Date.now());\n if(step===1&&prev===3)flow.set('cycles',(flow.get('cycles')||0)+1);}\nreturn null;",
+        "outputs": 0,
+        "x": 500,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "hstat",
+        "type": "http in",
+        "z": "1665b10bb107a0a0",
+        "url": "/plc/status",
+        "method": "get",
+        "x": 520,
+        "y": 360,
+        "wires": [
+            [
+                "fstat"
+            ]
+        ]
+    },
+    {
+        "id": "fstat",
+        "type": "function",
+        "z": "1665b10bb107a0a0",
+        "name": "status",
+        "func": "const s=flow.get('step')||0;\nmsg.headers={'Access-Control-Allow-Origin':'*','Cache-Control':'no-store'};\nmsg.payload={running:s>0,stage:s,relays:[s===1,s===2,s===3],stopHealthy:true,cycleCount:flow.get('cycles')||0,stageElapsedMs:Date.now()-(flow.get('stepAt')||Date.now()),stageMs:[10000,10000,10000]};\nreturn msg;",
+        "outputs": 1,
+        "x": 690,
+        "y": 360,
+        "wires": [
+            [
+                "rstat"
+            ]
+        ]
+    },
+    {
+        "id": "rstat",
+        "type": "http response",
+        "z": "1665b10bb107a0a0",
+        "statusCode": "200",
+        "x": 840,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "hcmd",
+        "type": "http in",
+        "z": "1665b10bb107a0a0",
+        "url": "/plc/command",
+        "method": "post",
+        "x": 110,
+        "y": 440,
+        "wires": [
+            [
+                "fcmd",
+                "839575cc6531c1af"
+            ]
+        ]
+    },
+    {
+        "id": "fcmd",
+        "type": "function",
+        "z": "1665b10bb107a0a0",
+        "name": "command",
+        "func": "let b = msg.payload;\nif (typeof b === 'string') { try { b = JSON.parse(b); } catch (e) { b = {}; } }\nconst k = (b || {}).kind;\nconst reply = { headers: { 'Access-Control-Allow-Origin': '*' }, payload: { ok: true }, res: msg.res, req: msg.req };\nif (k === 'start') return [{ payload: true }, null, reply];\nif (k === 'stop') return [null, { payload: true }, reply];\nreturn [null, null, reply];",
+        "outputs": 3,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 160,
+        "y": 360,
+        "wires": [
+            [
+                "8af0768a0a9e330c"
+            ],
+            [
+                "82e479665142c646"
+            ],
+            [
+                "rcmd"
+            ]
+        ]
+    },
+    {
+        "id": "rcmd",
+        "type": "http response",
+        "z": "1665b10bb107a0a0",
+        "statusCode": "200",
+        "x": 340,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "hopt",
+        "type": "http in",
+        "z": "1665b10bb107a0a0",
+        "url": "/plc/command",
+        "method": "options",
+        "x": 520,
+        "y": 420,
+        "wires": [
+            [
+                "fopt"
+            ]
+        ]
+    },
+    {
+        "id": "fopt",
+        "type": "function",
+        "z": "1665b10bb107a0a0",
+        "name": "cors",
+        "func": "msg.headers={'Access-Control-Allow-Origin':'*','Access-Control-Allow-Headers':'Content-Type','Access-Control-Allow-Methods':'GET,POST,OPTIONS'};msg.payload='';return msg;",
+        "outputs": 1,
+        "x": 710,
+        "y": 420,
+        "wires": [
+            [
+                "ropt"
+            ]
+        ]
+    },
+    {
+        "id": "ropt",
+        "type": "http response",
+        "z": "1665b10bb107a0a0",
+        "statusCode": "204",
+        "x": 860,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "839575cc6531c1af",
+        "type": "debug",
+        "z": "1665b10bb107a0a0",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "payload",
+        "statusType": "auto",
+        "x": 310,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "d425a369976cc77f",
+        "type": "inject",
+        "z": "1665b10bb107a0a0",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "v": "",
+                "vt": "num"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 350,
+        "y": 180,
+        "wires": [
+            [
+                "f29103dd6f9ec6ee"
+            ]
+        ]
+    },
+    {
+        "id": "f29103dd6f9ec6ee",
+        "type": "function",
+        "z": "1665b10bb107a0a0",
+        "name": "Run-Timer",
+        "func": "let activeStep = context.get('activeStep') || 0;\nlet startTime = context.get('startTime') || null;\n\n// Live_Step se dynamic step input update\nif (msg.topic === \"step\" || typeof msg.payload === 'number') {\n    if (msg.payload !== activeStep) {\n        activeStep = msg.payload; // Step 1, 2, ya 3\n        startTime = activeStep > 0 ? Date.now() : null;\n        context.set('activeStep', activeStep);\n        context.set('startTime', startTime);\n    }\n}\n\n// Seconds calculation\nlet runtimeSec = 0;\nif (startTime && activeStep > 0) {\n    runtimeSec = Math.floor((Date.now() - startTime) / 1000);\n}\n\n// 3 Outputs for Relay 1, 2, and 3\nreturn [\n    { payload: activeStep === 1 ? runtimeSec : 0 },\n    { payload: activeStep === 2 ? runtimeSec : 0 },\n    { payload: activeStep === 3 ? runtimeSec : 0 }\n];",
+        "outputs": 3,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 120,
+        "wires": [
+            [
+                "3034576cbed87316"
+            ],
+            [
+                "f3dab3333cb56cd7"
+            ],
+            [
+                "11d7fe65e5eaf8ef"
+            ]
+        ]
+    },
+    {
+        "id": "3034576cbed87316",
+        "type": "ui_text",
+        "z": "1665b10bb107a0a0",
+        "group": "a43fa6e721daba12",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Relay 1 Active Time",
+        "format": "{{msg.payload}} Seconds",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 730,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "f3dab3333cb56cd7",
+        "type": "ui_text",
+        "z": "1665b10bb107a0a0",
+        "group": "a43fa6e721daba12",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Relay 2 Active Time",
+        "format": "{{msg.payload}} Seconds",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 730,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "11d7fe65e5eaf8ef",
+        "type": "ui_text",
+        "z": "1665b10bb107a0a0",
+        "group": "a43fa6e721daba12",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Relay 3 Active Time",
+        "format": "{{msg.payload}} Seconds",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 730,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "96a56d79b566b593",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-contrib-s7": "3.1.3",
+            "node-red-dashboard": "3.6.6"
+        }
+    }
+]
